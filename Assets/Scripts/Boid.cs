@@ -53,8 +53,10 @@ public class Boid : MonoBehaviour
     }
 
     void OnTriggerExit(Collider container) {
+
+        // Wrap Boids to Container
         Vector3 newPosition = previousTransform.position;
-        //print(containerSize.x + ", " + containerSize.y);
+
         if (position.x > container.transform.position.x + containerSize.x/2) {
             newPosition.x -= containerSize.x;
         }
@@ -71,7 +73,6 @@ public class Boid : MonoBehaviour
 
         previousTransform.position = newPosition;
 
-        print(name + " EXITTED");
     }
 
 
