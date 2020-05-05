@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Boid : MonoBehaviour
 {
+    private Main controller;
     private Vector3 containerSize;
     private Renderer boidRenderer;
     private Color color;
@@ -12,10 +13,20 @@ public class Boid : MonoBehaviour
     private Vector3 position;
     private Vector3 velocity;
 
-    public float speed = 5.0f;
+    public float maxSpeed = 5.0f;
+    public float minSpeed = 3.0f;
+    public float steeringMaxSpeed = 5.0f;
+    public float steeringMinSpeed = 3.0f;
+    public int numRays = 18;
+    public float rayAngle = 180.0f;
+    public float rayDistance = 1.0f;
 
 
     void Awake() {
+
+        // get container
+        controller = GameObject.Find("Main").GetComponent<Main>();
+
         // get container
         containerSize = GameObject.Find("Container").GetComponent<Collider>().bounds.size;
 
@@ -36,18 +47,56 @@ public class Boid : MonoBehaviour
         // set position
         position = transform.position;
         // set velocity
-        velocity = transform.forward * speed;
+        velocity = transform.forward * (maxSpeed + minSpeed)/2;
     }
 
     // Update is called once per frame
     void Update() {
+        Vector3 acceleration = Vector3.zero;
+
         //float speed = velocity.magnitude;
         //Vector3 direction = velocity/speed;
         //speed = Mathf.Clamp(speed, 5.0f, 6.0f);
         //velocity = direction * speed;
 
-        previousTransform.position += velocity * Time.deltaTime;
-        position = previousTransform.position;
+        // Store last position
+        previousTransform.position = position;
+
+        RaycastHit hit;
+        float distanceToObstacle = 0;
+
+        for (int i = 0; i < numRays; i++) {
+            Vector3 rayVector = transform.rotation
+                    * Quaternion.AngleAxis(-1*rayAngle/2+(i*rayAngle/numRays), Vector3.left)
+                    * Vector3.forward;
+            if (Physics.SphereCast(transform.position + (transform.forward * 0.3f), 0.22f, rayVector, out hit, rayDistance))  {
+                distanceToObstacle = hit.distance;
+                if (controller.showRays) {
+                    Debug.DrawRay(transform.position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.red);
+                    print(hit.transform.name);
+                }
+
+            }
+            else {
+                if (controller.showRays) {
+                Debug.DrawRay(transform.position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.green);
+                }
+            }
+
+        }
+
+
+
+        // Move position
+        position += velocity * Time.deltaTime;
+
+        // get speed
+        float speed = velocity.magnitude;
+        // get direction
+        Vector3 direction = velocity / speed;
+        // point in direction headed
+        transform.forward = direction;
+
         //forward = transform.forward;
 
     }
@@ -55,7 +104,7 @@ public class Boid : MonoBehaviour
     void OnTriggerExit(Collider container) {
 
         // Wrap Boids to Container
-        Vector3 newPosition = previousTransform.position;
+        Vector3 newPosition = position;
 
         if (position.x > container.transform.position.x + containerSize.x/2) {
             newPosition.x -= containerSize.x;
@@ -71,7 +120,7 @@ public class Boid : MonoBehaviour
             newPosition.y += containerSize.y;
         }
 
-        previousTransform.position = newPosition;
+        position = newPosition;
 
     }
 

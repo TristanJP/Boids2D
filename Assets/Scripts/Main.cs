@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Main : MonoBehaviour
 {
-
+    public bool showRays = false;
     public int boidCount = 10;
     public GameObject boid;
 
