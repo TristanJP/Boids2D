@@ -44,7 +44,7 @@ public class Boid : MonoBehaviour
 
         // Rotate to random direction
         float randomAngle = Random.Range(0f,360f);
-        transform.Rotate(randomAngle, 90.0f, 0.0f, Space.Self);
+        transform.Rotate(randomAngle, -90.0f, 0.0f, Space.Self);
 
         // set position
         position = transform.position;
@@ -85,17 +85,17 @@ public class Boid : MonoBehaviour
         // Wrap Boids to Container
         Vector3 newPosition = position;
 
-        if (position.x > container.transform.position.x + containerSize.x/2) {
+        if (position.x >= container.transform.position.x + containerSize.x/2) {
             newPosition.x -= containerSize.x + 0.5f;
         }
-        else if (position.x < container.transform.position.x - containerSize.x/2) {
+        else if (position.x <= container.transform.position.x - containerSize.x/2) {
             newPosition.x += containerSize.x + 0.5f;
         }
-        if (position.y > container.transform.position.y + containerSize.y/2) {
+        if (position.y >= container.transform.position.y + containerSize.y/2) {
             newPosition.y -= containerSize.y + 0.5f;
 
         }
-        else if (position.y < container.transform.position.y - containerSize.y/2) {
+        else if (position.y <= container.transform.position.y - containerSize.y/2) {
             newPosition.y += containerSize.y + 0.5f;
         }
 
@@ -131,7 +131,7 @@ public class Boid : MonoBehaviour
 
     Vector3 SteerTowards(Vector3 vector) {
         Vector3 v = vector.normalized * maxSpeed - velocity;
-        return Vector3.ClampMagnitude (v, steeringMaxSpeed);
+        return Vector3.ClampMagnitude(v, steeringMaxSpeed);
     }
 
     // Gets a random colour from a gradient
