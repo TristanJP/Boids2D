@@ -17,9 +17,10 @@ public class Boid : MonoBehaviour
     public float minSpeed = 3.0f;
     public float steeringMaxSpeed = 5.0f;
     public float steeringMinSpeed = 3.0f;
-    public int numRays = 18;
-    public float rayAngle = 180.0f;
-    public float rayDistance = 1.0f;
+    public int numRays = 24;
+    public float rayAngle = 240.0f;
+    public float rayDistance = 1.2f;
+    private float boidWidth = 0.22f;
 
 
     void Awake() {
@@ -42,7 +43,8 @@ public class Boid : MonoBehaviour
         boidRenderer.material.SetColor("_Color", color);
 
         // Rotate to random direction
-        transform.Rotate(Random.Range(0f,360f), 90.0f, 0.0f, Space.Self);
+        float randomAngle = Random.Range(0f,360f);
+        transform.Rotate(randomAngle, 90.0f, 0.0f, Space.Self);
 
         // set position
         position = transform.position;
@@ -54,51 +56,28 @@ public class Boid : MonoBehaviour
     void Update() {
         Vector3 acceleration = Vector3.zero;
 
-        //float speed = velocity.magnitude;
-        //Vector3 direction = velocity/speed;
-        //speed = Mathf.Clamp(speed, 5.0f, 6.0f);
-        //velocity = direction * speed;
-
         // Store last position
         previousTransform.position = position;
 
-        RaycastHit hit;
-        float distanceToObstacle = 0;
+        Vector3 collisionAvoidDirection = avoidanceDirection();
 
-        for (int i = 0; i < numRays; i++) {
-            Vector3 rayVector = transform.rotation
-                    * Quaternion.AngleAxis(-1*rayAngle/2+(i*rayAngle/numRays), Vector3.left)
-                    * Vector3.forward;
-            if (Physics.SphereCast(transform.position + (transform.forward * 0.3f), 0.22f, rayVector, out hit, rayDistance))  {
-                distanceToObstacle = hit.distance;
-                if (controller.showRays) {
-                    Debug.DrawRay(transform.position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.red);
-                    print(hit.transform.name);
-                }
+        acceleration += SteerTowards(collisionAvoidDirection);
 
-            }
-            else {
-                if (controller.showRays) {
-                Debug.DrawRay(transform.position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.green);
-                }
-            }
+        velocity += acceleration * Time.deltaTime;
 
-        }
+        // get speed
+        float speed = velocity.magnitude;
 
-
+        // get direction
+        Vector3 direction = velocity / speed;
+        speed = Mathf.Clamp(speed, minSpeed, maxSpeed);
+        velocity = direction * speed;
 
         // Move position
         position += velocity * Time.deltaTime;
 
-        // get speed
-        float speed = velocity.magnitude;
-        // get direction
-        Vector3 direction = velocity / speed;
         // point in direction headed
         transform.forward = direction;
-
-        //forward = transform.forward;
-
     }
 
     void OnTriggerExit(Collider container) {
@@ -107,23 +86,53 @@ public class Boid : MonoBehaviour
         Vector3 newPosition = position;
 
         if (position.x > container.transform.position.x + containerSize.x/2) {
-            newPosition.x -= containerSize.x;
+            newPosition.x -= containerSize.x + 0.5f;
         }
         else if (position.x < container.transform.position.x - containerSize.x/2) {
-            newPosition.x += containerSize.x;
+            newPosition.x += containerSize.x + 0.5f;
         }
         if (position.y > container.transform.position.y + containerSize.y/2) {
-            newPosition.y -= containerSize.y;
+            newPosition.y -= containerSize.y + 0.5f;
 
         }
         else if (position.y < container.transform.position.y - containerSize.y/2) {
-            newPosition.y += containerSize.y;
+            newPosition.y += containerSize.y + 0.5f;
         }
 
         position = newPosition;
 
     }
 
+    private Vector3 avoidanceDirection() {
+        RaycastHit hit;
+
+        for (int i = 0; i < numRays; i++) {
+            Vector3 rayVector = transform.rotation
+                    * Quaternion.AngleAxis(-1*rayAngle/2+(i*rayAngle/numRays), Vector3.left)
+                    * Vector3.forward;
+            if (Physics.SphereCast(position + (transform.forward * 0.3f), boidWidth, rayVector, out hit, rayDistance))  {
+
+                if (controller.showRays) {
+                    Debug.DrawRay(position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.red);
+                }
+
+                return -rayVector;
+
+            }
+            else {
+                if (controller.showRays) {
+                    Debug.DrawRay(position + (transform.forward * 0.3f), rayVector * rayDistance, Color.green);
+                }
+            }
+
+        }
+        return transform.forward;
+    }
+
+    Vector3 SteerTowards(Vector3 vector) {
+        Vector3 v = vector.normalized * maxSpeed - velocity;
+        return Vector3.ClampMagnitude (v, steeringMaxSpeed);
+    }
 
     // Gets a random colour from a gradient
     private Color getRandomColour() {

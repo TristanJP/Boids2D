@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b84e320151e4c7a44a891a3802bca1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
-  minSpeed: 3
-  steeringMaxSpeed: 5
-  steeringMinSpeed: 3
-  numRays: 18
-  rayAngle: 180
+  maxSpeed: 2
+  minSpeed: 1
+  steeringMaxSpeed: 3
+  steeringMinSpeed: 2
+  numRays: 24
+  rayAngle: 240
+  rayDistance: 1.2
 --- !u!65 &2530966627601688058
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -59,7 +60,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3568406627256611095}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.22, y: 0.22, z: 0.4}
