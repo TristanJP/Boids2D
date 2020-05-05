@@ -122,14 +122,14 @@ public class Boid : MonoBehaviour
                     * Vector3.forward;
             if (Physics.SphereCast(position + (transform.forward * 0.3f), boidWidth, rayVector, out hit, rayDistance))  {
                 obstDirections.Add(rayVector);
-                if (controller.showRays) {
+                if (controller.showRedRays) {
                     Debug.DrawRay(position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.red);
                 }
 
 
             }
             else {
-                if (controller.showRays) {
+                if (controller.showGreenRays) {
                     Debug.DrawRay(position + (transform.forward * 0.3f), rayVector * rayDistance, Color.green);
                 }
             }
