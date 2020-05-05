@@ -82,7 +82,7 @@ public class Boid : MonoBehaviour
         position += velocity * Time.deltaTime;
 
         // point in direction headed
-        transform.forward = direction;
+        transform.rotation = Quaternion.LookRotation(direction, Vector3.left);
     }
 
     void OnTriggerExit(Collider container) {
