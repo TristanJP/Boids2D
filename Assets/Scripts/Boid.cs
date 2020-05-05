@@ -86,17 +86,17 @@ public class Boid : MonoBehaviour
         Vector3 newPosition = position;
 
         if (position.x >= container.transform.position.x + containerSize.x/2) {
-            newPosition.x -= containerSize.x + 0.5f;
+            newPosition.x -= containerSize.x;
         }
         else if (position.x <= container.transform.position.x - containerSize.x/2) {
-            newPosition.x += containerSize.x + 0.5f;
+            newPosition.x += containerSize.x;
         }
         if (position.y >= container.transform.position.y + containerSize.y/2) {
-            newPosition.y -= containerSize.y + 0.5f;
+            newPosition.y -= containerSize.y;
 
         }
         else if (position.y <= container.transform.position.y - containerSize.y/2) {
-            newPosition.y += containerSize.y + 0.5f;
+            newPosition.y += containerSize.y;
         }
 
         position = newPosition;
