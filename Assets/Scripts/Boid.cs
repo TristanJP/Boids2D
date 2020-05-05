@@ -21,6 +21,7 @@ public class Boid : MonoBehaviour
     public float rayAngle = 240.0f;
     public float rayDistance = 1.2f;
     private float boidWidth = 0.22f;
+    private bool outside = false;
 
 
     void Awake() {
@@ -59,11 +60,15 @@ public class Boid : MonoBehaviour
         // Store last position
         previousTransform.position = position;
 
-        Vector3 collisionAvoidDirection = avoidanceDirection();
+        // If in container, do collision avoidance
+        if (!outside) {
+            Vector3 collisionAvoidDirection = avoidanceDirection();
 
-        acceleration += SteerTowards(collisionAvoidDirection);
+            acceleration += SteerTowards(collisionAvoidDirection);
 
-        velocity += acceleration * Time.deltaTime;
+            velocity += acceleration * Time.deltaTime;
+        }
+
 
         // get speed
         float speed = velocity.magnitude;
@@ -81,7 +86,7 @@ public class Boid : MonoBehaviour
     }
 
     void OnTriggerExit(Collider container) {
-
+        outside = true;
         // Wrap Boids to Container
         Vector3 newPosition = position;
 
@@ -101,6 +106,10 @@ public class Boid : MonoBehaviour
 
         position = newPosition;
 
+    }
+
+    void OnTriggerEnter(Collider container) {
+        outside = false;
     }
 
     private Vector3 avoidanceDirection() {
