@@ -114,18 +114,18 @@ public class Boid : MonoBehaviour
 
     private Vector3 avoidanceDirection() {
         RaycastHit hit;
+        List<Vector3> obstDirections = new List<Vector3>();
 
         for (int i = 0; i < numRays; i++) {
             Vector3 rayVector = transform.rotation
-                    * Quaternion.AngleAxis(-1*rayAngle/2+(i*rayAngle/numRays), Vector3.left)
+                    * Quaternion.AngleAxis(1*rayAngle/2-(i*rayAngle/numRays), Vector3.left)
                     * Vector3.forward;
             if (Physics.SphereCast(position + (transform.forward * 0.3f), boidWidth, rayVector, out hit, rayDistance))  {
-
+                obstDirections.Add(rayVector);
                 if (controller.showRays) {
                     Debug.DrawRay(position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.red);
                 }
 
-                return -rayVector;
 
             }
             else {
@@ -133,6 +133,16 @@ public class Boid : MonoBehaviour
                     Debug.DrawRay(position + (transform.forward * 0.3f), rayVector * rayDistance, Color.green);
                 }
             }
+
+        }
+
+        if (obstDirections.Count > 0) {
+            Vector3 averageVector = Vector3.zero;
+            foreach (Vector3 dir in obstDirections) {
+                averageVector += dir.normalized;
+            }
+            return averageVector.normalized*-1;
+
 
         }
         return transform.forward;

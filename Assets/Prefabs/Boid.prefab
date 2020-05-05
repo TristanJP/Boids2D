@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b84e320151e4c7a44a891a3802bca1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 2
-  minSpeed: 1
-  steeringMaxSpeed: 3
-  steeringMinSpeed: 2
+  maxSpeed: 5
+  minSpeed: 3
+  steeringMaxSpeed: 8
+  steeringMinSpeed: 4
   numRays: 24
   rayAngle: 240
   rayDistance: 1.2
