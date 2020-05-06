@@ -14,11 +14,11 @@ public class Boid : MonoBehaviour
     private Vector3 velocity;
 
     public float maxSpeed = 5.0f;
-    public float minSpeed = 3.0f;
-    public float steeringMaxSpeed = 5.0f;
-    public float steeringMinSpeed = 3.0f;
-    public int numRays = 24;
-    public float rayAngle = 240.0f;
+    public float minSpeed = 1.0f;
+    public float steeringMaxSpeed = 10.0f;
+    public float steeringMinSpeed = 5.0f;
+    public int numRays = 30;
+    public float rayAngle = 300.0f;
     public float rayDistance = 1.2f;
     public float collisionAvoidanceWeight = 1f;
     public float alignmentDistance = 3.0f;

@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showGreenRays: 1
   showRedRays: 0
-  boidCount: 24
+  boidCount: 22
   avoidCollision: 1
   alignDirection: 1
   boid: {fileID: 3568406627256611095, guid: 55699e4fdbf4cfe4a8be50fe89b34883, type: 3}

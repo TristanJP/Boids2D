@@ -46,11 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
-  minSpeed: 3
-  steeringMaxSpeed: 5
-  steeringMinSpeed: 3
-  numRays: 24
-  rayAngle: 240
+  minSpeed: 1
+  steeringMaxSpeed: 10
+  steeringMinSpeed: 5
+  numRays: 30
+  rayAngle: 300
   rayDistance: 1.2
   collisionAvoidanceWeight: 1
   alignmentDistance: 3
