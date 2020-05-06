@@ -20,6 +20,9 @@ public class Boid : MonoBehaviour
     public int numRays = 24;
     public float rayAngle = 240.0f;
     public float rayDistance = 1.2f;
+    public float collisionAvoidanceWeight = 1f;
+    public float alignmentDistance = 3.0f;
+    public float alignmentWeight = 1f;
     private float boidWidth = 0.22f;
     private bool outside = false;
 
@@ -63,12 +66,24 @@ public class Boid : MonoBehaviour
         // If in container, do collision avoidance
         if (!outside) {
             Vector3 collisionAvoidDirection = avoidanceDirection();
+            Vector3 alignmentVector = getFlockAlignment();
 
-            acceleration += SteerTowards(collisionAvoidDirection);
+            Vector3 newDirection = Vector3.zero;
+            if (controller.avoidCollision) {
+                newDirection += collisionAvoidDirection * collisionAvoidanceWeight;
+            }
+            else if (controller.alignDirection) {
+                newDirection += alignmentVector * alignmentWeight;
+            }
+
+
+            acceleration += SteerTowards(newDirection);
 
             velocity += acceleration * Time.deltaTime;
         }
 
+
+        velocity = new Vector3(velocity.x, velocity.y, 0f);
 
         // get speed
         float speed = velocity.magnitude;
@@ -148,7 +163,16 @@ public class Boid : MonoBehaviour
         return transform.forward;
     }
 
-    Vector3 SteerTowards(Vector3 vector) {
+    private Vector3 getFlockAlignment() {
+        List<Transform> nearbyBoids = controller.getNearbyBoids(transform, alignmentDistance);
+        Vector3 alignment = Vector3.zero;
+        foreach (Transform boidT in nearbyBoids) {
+            alignment += boidT.forward;
+        }
+        return alignment.normalized;
+    }
+
+    private Vector3 SteerTowards(Vector3 vector) {
         Vector3 v = vector.normalized * maxSpeed - velocity;
         return Vector3.ClampMagnitude(v, steeringMaxSpeed);
     }
@@ -175,4 +199,5 @@ public class Boid : MonoBehaviour
 
         return gradient.Evaluate(Random.Range(0f,1f));
     }
+
 }

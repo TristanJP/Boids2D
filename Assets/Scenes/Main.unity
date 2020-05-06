@@ -233,9 +233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e5b016ab22ee541818a83872ba00c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showGreenRays: 0
+  showGreenRays: 1
   showRedRays: 0
-  boidCount: 60
+  boidCount: 24
+  avoidCollision: 1
+  alignDirection: 1
   boid: {fileID: 3568406627256611095, guid: 55699e4fdbf4cfe4a8be50fe89b34883, type: 3}
 --- !u!4 &685823059
 Transform:
