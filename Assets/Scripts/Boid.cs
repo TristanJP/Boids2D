@@ -24,6 +24,7 @@ public class Boid : MonoBehaviour
     public float collisionAvoidanceWeight = 1f;
     public float alignmentDistance = 3.0f;
     public float alignmentWeight = 1f;
+    public float averagePositionWeight = 1.0f;
     private float boidWidth = 0.22f;
     private bool outside = false;
 
@@ -109,17 +110,17 @@ public class Boid : MonoBehaviour
         Vector3 newPosition = position;
 
         if (position.x >= container.transform.position.x + containerSize.x/2) {
-            newPosition.x -= containerSize.x;
+            newPosition.x = -(containerSize.x/2 + 0.2f);
         }
         else if (position.x <= container.transform.position.x - containerSize.x/2) {
-            newPosition.x += containerSize.x;
+            newPosition.x = (containerSize.x/2 + 0.2f);
         }
         if (position.y >= container.transform.position.y + containerSize.y/2) {
-            newPosition.y -= containerSize.y;
+            newPosition.y = -(containerSize.y/2 + 0.2f);
 
         }
         else if (position.y <= container.transform.position.y - containerSize.y/2) {
-            newPosition.y += containerSize.y;
+            newPosition.y = (containerSize.y/2 + 0.2f);
         }
 
         position = newPosition;
@@ -165,6 +166,7 @@ public class Boid : MonoBehaviour
         }
         return transform.forward;
     }
+
 
     private Vector3 getFlockAlignment() {
         List<Transform> nearbyBoids = controller.getNearbyBoids(transform, alignmentDistance);
