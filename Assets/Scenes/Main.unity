@@ -238,6 +238,7 @@ MonoBehaviour:
   boidCount: 40
   avoidCollision: 1
   alignDirection: 1
+  steerToCentre: 1
   boid: {fileID: 3568406627256611095, guid: 55699e4fdbf4cfe4a8be50fe89b34883, type: 3}
 --- !u!4 &685823059
 Transform:
@@ -500,6 +501,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618673944352124154, guid: 975efc90e6de05548a2c89daa3af33d5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7618673944352124154, guid: 975efc90e6de05548a2c89daa3af33d5,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 18.5
       objectReference: {fileID: 0}
     - target: {fileID: 7618673944352124158, guid: 975efc90e6de05548a2c89daa3af33d5,
         type: 3}

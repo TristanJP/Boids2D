@@ -13,6 +13,8 @@ public class Boid : MonoBehaviour
     private Transform previousTransform;
     private Vector3 position;
     private Vector3 velocity;
+    List<Transform> nearbyBoids;
+
 
     public float maxSpeed = 5.0f;
     public float minSpeed = 1.0f;
@@ -24,7 +26,7 @@ public class Boid : MonoBehaviour
     public float collisionAvoidanceWeight = 1f;
     public float alignmentDistance = 3.0f;
     public float alignmentWeight = 1f;
-    public float averagePositionWeight = 1.0f;
+    public float steerToCentreWeight = 1.0f;
     private float boidWidth = 0.22f;
     private bool outside = false;
 
@@ -69,17 +71,21 @@ public class Boid : MonoBehaviour
 
         // If in container, do collision avoidance
         if (!outside) {
-            Vector3 collisionAvoidDirection = avoidanceDirection();
-            Vector3 alignmentVector = getFlockAlignment();
+            nearbyBoids = controller.getNearbyBoids(transform, alignmentDistance);
 
             Vector3 newDirection = Vector3.zero;
             if (controller.avoidCollision) {
+                Vector3 collisionAvoidDirection = avoidanceDirection();
                 newDirection += collisionAvoidDirection * collisionAvoidanceWeight;
             }
-            else if (controller.alignDirection) {
+            if (controller.alignDirection) {
+                Vector3 alignmentVector = getFlockAlignment();
                 newDirection += alignmentVector * alignmentWeight;
             }
-
+            if (controller.steerToCentre) {
+                Vector3 flockCentreDirection = getFlockCentre() - position;
+                newDirection += flockCentreDirection.normalized * steerToCentreWeight;
+            }
 
             acceleration += SteerTowards(newDirection);
 
@@ -110,17 +116,17 @@ public class Boid : MonoBehaviour
         Vector3 newPosition = position;
 
         if (position.x >= container.transform.position.x + containerSize.x/2) {
-            newPosition.x = -(containerSize.x/2 + 0.2f);
+            newPosition.x = -(containerSize.x/2);
         }
         else if (position.x <= container.transform.position.x - containerSize.x/2) {
-            newPosition.x = (containerSize.x/2 + 0.2f);
+            newPosition.x = (containerSize.x/2);
         }
         if (position.y >= container.transform.position.y + containerSize.y/2) {
-            newPosition.y = -(containerSize.y/2 + 0.2f);
+            newPosition.y = -(containerSize.y/2);
 
         }
         else if (position.y <= container.transform.position.y - containerSize.y/2) {
-            newPosition.y = (containerSize.y/2 + 0.2f);
+            newPosition.y = (containerSize.y/2);
         }
 
         position = newPosition;
@@ -167,9 +173,15 @@ public class Boid : MonoBehaviour
         return transform.forward;
     }
 
+    private Vector3 getFlockCentre() {
+        Vector3 centre = Vector3.zero;
+        foreach (Transform boidT in nearbyBoids) {
+            centre += boidT.position;
+        }
+        return centre/nearbyBoids.Count;
+    }
 
     private Vector3 getFlockAlignment() {
-        List<Transform> nearbyBoids = controller.getNearbyBoids(transform, alignmentDistance);
         Vector3 alignment = Vector3.zero;
         foreach (Transform boidT in nearbyBoids) {
             alignment += boidT.forward;

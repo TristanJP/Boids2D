@@ -9,6 +9,7 @@ public class Main : MonoBehaviour
     public int boidCount = 10;
     public bool avoidCollision = true;
     public bool alignDirection = true;
+    public bool steerToCentre = true;
     public GameObject boid;
     private List<Transform> boidList;
 
