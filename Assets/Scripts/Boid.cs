@@ -5,6 +5,7 @@ using UnityEngine;
 public class Boid : MonoBehaviour
 {
     private Main controller;
+    public Light pointLight;
     private Vector3 containerSize;
     private Renderer boidRenderer;
     private Color color;
@@ -29,7 +30,7 @@ public class Boid : MonoBehaviour
 
     void Awake() {
 
-        // get container
+        // get controller
         controller = GameObject.Find("Main").GetComponent<Main>();
 
         // get container
@@ -38,6 +39,7 @@ public class Boid : MonoBehaviour
         // get renderer
         boidRenderer = transform.Find("ConeBoid").GetComponent<Renderer>();
         previousTransform = transform;
+
     }
 
     // Start is called before the first frame update
@@ -45,6 +47,7 @@ public class Boid : MonoBehaviour
         // Set colour
         color = getRandomColour();
         boidRenderer.material.SetColor("_Color", color);
+        pointLight.color = color;
 
         // Rotate to random direction
         float randomAngle = Random.Range(0f,360f);
