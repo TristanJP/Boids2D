@@ -22,7 +22,6 @@ public class Main : MonoBehaviour
             addBoid();
             i += 1;
         }
-
     }
 
     public List<Transform> getNearbyBoids(Transform requestingBoid, float distance) {
@@ -38,9 +37,34 @@ public class Main : MonoBehaviour
         return nearbyBoids;
     }
 
-    public void addBoid() {
-        Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
-        GameObject boidInstance = Instantiate(boid, randomPositionOnScreen, Quaternion.identity);
+    public void addBoid(bool onScreen = true) {
+        Vector2 randomPosition = Vector2.zero;
+        if (onScreen) {
+            randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+        }
+        else {
+            switch (Random.Range(1,5)) {
+                case 1:
+                    // bottom
+                    randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, 0));
+                    break;
+                case 2:
+                    // top
+                    randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, 1));
+                    break;
+                case 3:
+                    // left
+                    randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(0, Random.value));
+                    break;
+                case 4:
+                    // right
+                    randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(1, Random.value));
+                    break;
+            }
+
+        }
+
+        GameObject boidInstance = Instantiate(boid, randomPosition, Quaternion.identity);
         //Boid boidController = boidInstance.GetComponent<Boid>();
         boidList.Add(boidInstance.transform);
     }
