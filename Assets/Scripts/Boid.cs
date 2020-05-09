@@ -49,8 +49,7 @@ public class Boid : MonoBehaviour
     void Start() {
         // Set colour
         color = getRandomColour();
-        boidRenderer.material.SetColor("_Color", color);
-        pointLight.color = color;
+        setColor(color);
 
         // Rotate to random direction
         float randomAngle = Random.Range(0f,360f);
@@ -198,6 +197,11 @@ public class Boid : MonoBehaviour
     private Vector3 SteerTowards(Vector3 vector) {
         Vector3 v = vector.normalized * maxSpeed - velocity;
         return Vector3.ClampMagnitude(v, steeringMaxSpeed);
+    }
+
+    public void setColor(Color color) {
+        boidRenderer.material.SetColor("_Color", color);
+        pointLight.color = color;
     }
 
     // Gets a random colour from a gradient

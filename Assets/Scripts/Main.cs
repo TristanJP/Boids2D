@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class Main : MonoBehaviour
     public GameObject boid;
     private List<Transform> boidList;
 
+    public GameObject colorPicker;
+    ColorPicker colorPickerComp;
+    public GameObject imageTest;
+    Image imageTestComp;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +28,10 @@ public class Main : MonoBehaviour
             addBoid();
             i += 1;
         }
+
+        colorPickerComp = colorPicker.GetComponent<ColorPicker>();
+        colorPickerComp.color = Color.red;
+        imageTestComp = imageTest.GetComponent<Image>();
     }
 
     public List<Transform> getNearbyBoids(Transform requestingBoid, float distance) {
@@ -76,6 +86,10 @@ public class Main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        imageTestComp.color = colorPickerComp.color;
+        foreach (Transform boid in boidList) {
+            Boid boidController = boid.GetComponent<Boid>();
+            boidController.setColor(colorPickerComp.color);
+        }
     }
 }
