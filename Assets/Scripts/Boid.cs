@@ -110,26 +110,32 @@ public class Boid : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction, Vector3.left);
     }
 
-    void OnTriggerExit(Collider container) {
-        outside = true;
-        // Wrap Boids to Container
-        Vector3 newPosition = position;
+    void OnTriggerExit(Collider other) {
+        if (other.tag == "Container") {
+            outside = true;
+            // Wrap Boids to Container
+            Vector3 newPosition = position;
 
-        if (position.x >= container.transform.position.x + containerSize.x/2) {
-            newPosition.x = -(containerSize.x/2);
-        }
-        else if (position.x <= container.transform.position.x - containerSize.x/2) {
-            newPosition.x = (containerSize.x/2);
-        }
-        if (position.y >= container.transform.position.y + containerSize.y/2) {
-            newPosition.y = -(containerSize.y/2);
+            if (position.x >= other.transform.position.x + containerSize.x/2) {
+                newPosition.x = -(containerSize.x/2);
+            }
+            else if (position.x <= other.transform.position.x - containerSize.x/2) {
+                newPosition.x = (containerSize.x/2);
+            }
+            if (position.y >= other.transform.position.y + containerSize.y/2) {
+                newPosition.y = -(containerSize.y/2);
 
-        }
-        else if (position.y <= container.transform.position.y - containerSize.y/2) {
-            newPosition.y = (containerSize.y/2);
-        }
+            }
+            else if (position.y <= other.transform.position.y - containerSize.y/2) {
+                newPosition.y = (containerSize.y/2);
+            }
 
-        position = newPosition;
+            position = newPosition;
+        }
+        else if (other.tag == "Bounds") {
+            controller.removeBoid(transform);
+            Destroy(gameObject);
+        }
 
     }
 

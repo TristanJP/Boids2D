@@ -19,10 +19,7 @@ public class Main : MonoBehaviour
         boidList = new List<Transform>();
         int i = 0;
         while (i < boidCount) {
-            Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
-            GameObject boidInstance = Instantiate(boid, randomPositionOnScreen, Quaternion.identity);
-            //Boid boidController = boidInstance.GetComponent<Boid>();
-            boidList.Add(boidInstance.transform);
+            addBoid();
             i += 1;
         }
 
@@ -39,6 +36,17 @@ public class Main : MonoBehaviour
             }
         }
         return nearbyBoids;
+    }
+
+    public void addBoid() {
+        Vector2 randomPositionOnScreen = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, Random.value));
+        GameObject boidInstance = Instantiate(boid, randomPositionOnScreen, Quaternion.identity);
+        //Boid boidController = boidInstance.GetComponent<Boid>();
+        boidList.Add(boidInstance.transform);
+    }
+
+    public void removeBoid(Transform boidToRemove) {
+        boidList.Remove(boidToRemove);
     }
 
     // Update is called once per frame
