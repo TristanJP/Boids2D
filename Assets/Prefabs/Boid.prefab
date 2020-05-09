@@ -48,15 +48,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointLight: {fileID: 8517474249134090049}
   maxSpeed: 5
-  minSpeed: 1
+  minSpeed: 4
   steeringMaxSpeed: 10
   steeringMinSpeed: 5
   numRays: 30
   rayAngle: 300
   rayDistance: 1.2
-  collisionAvoidanceWeight: 1
+  collisionAvoidanceWeight: 2
   alignmentDistance: 3
   alignmentWeight: 1
+  steerToCentreWeight: 1
 --- !u!65 &2530966627601688058
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -80,17 +81,17 @@ PrefabInstance:
     - target: {fileID: 7763209142373560334, guid: e2c155c3f3d57e34792a7ba3b7df3674,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.972549
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7763209142373560334, guid: e2c155c3f3d57e34792a7ba3b7df3674,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.43529412
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7763209142373560334, guid: e2c155c3f3d57e34792a7ba3b7df3674,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.5370618
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8879791229005593334, guid: e2c155c3f3d57e34792a7ba3b7df3674,
         type: 3}
