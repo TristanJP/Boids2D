@@ -374,7 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showGreenRays: 0
   showRedRays: 0
-  boidCount: 40
+  boidCount: 32
   avoidCollision: 1
   alignDirection: 1
   steerToCentre: 1
