@@ -16,6 +16,7 @@ public class Main : MonoBehaviour
 
     public ColorPicker colorPickerComp;
     public Slider boidCountSlider;
+    public Text boidCountText;
 
     // Start is called before the first frame update
     void Start()
@@ -109,6 +110,7 @@ public class Main : MonoBehaviour
             if (boidCount > boidList.Count) {
                 addBoid(false);
             }
+            boidCountText.text = ""+ boidCount;
         }
     }
 }

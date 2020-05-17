@@ -470,6 +470,7 @@ MonoBehaviour:
   boid: {fileID: 3568406627256611095, guid: 55699e4fdbf4cfe4a8be50fe89b34883, type: 3}
   colorPickerComp: {fileID: 2126522983}
   boidCountSlider: {fileID: 2127136688}
+  boidCountText: {fileID: 1766149935}
 --- !u!4 &685823059
 Transform:
   m_ObjectHideFlags: 0
@@ -629,8 +630,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.97, y: 14.45}
-  m_SizeDelta: {x: 96.39, y: 24.73}
+  m_AnchoredPosition: {x: -25.88, y: 16.2}
+  m_SizeDelta: {x: 126.22, y: 32.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &817096718
 MonoBehaviour:
@@ -652,7 +653,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -1250,8 +1251,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 42.44, y: 14.382}
-  m_SizeDelta: {x: 49.08, y: 31.235}
+  m_AnchoredPosition: {x: 67.6, y: 17.69}
+  m_SizeDelta: {x: 51.17, y: 37.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1766149935
 MonoBehaviour:
@@ -1273,7 +1274,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 26
+    m_FontSize: 32
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
