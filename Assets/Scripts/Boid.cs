@@ -133,7 +133,6 @@ public class Boid : MonoBehaviour
         }
         else if (other.tag == "Bounds") {
             controller.removeBoid(transform);
-            Destroy(gameObject);
         }
 
     }

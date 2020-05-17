@@ -15,6 +15,7 @@ public class Main : MonoBehaviour
     private List<Transform> boidList;
 
     public ColorPicker colorPickerComp;
+    public Slider boidCountSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class Main : MonoBehaviour
         }
 
         colorPickerComp.color = new Color(0.2f, 0.9f, 1f);
+        boidCountSlider.value = boidCount;
     }
 
     public List<Transform> getNearbyBoids(Transform requestingBoid, float distance) {
@@ -80,10 +82,15 @@ public class Main : MonoBehaviour
 
     public void removeBoid(Transform boidToRemove) {
         boidList.Remove(boidToRemove);
+        Destroy(boidToRemove.gameObject);
 
         if (boidList.Count < boidCount) {
             addBoid(false);
         }
+    }
+
+    public void setBoidCount(float newBoidCount) {
+        boidCount = (int)newBoidCount;
     }
 
     // Update is called once per frame
@@ -92,6 +99,16 @@ public class Main : MonoBehaviour
         foreach (Transform boid in boidList) {
             Boid boidController = boid.GetComponent<Boid>();
             boidController.setColor(colorPickerComp.color);
+        }
+
+        while (boidCount != boidList.Count) {
+            if (boidCount < boidList.Count) {
+                Transform chosenBoid = boidList[Random.Range(1, boidList.Count)];
+                removeBoid(chosenBoid);
+            }
+            if (boidCount > boidList.Count) {
+                addBoid(false);
+            }
         }
     }
 }

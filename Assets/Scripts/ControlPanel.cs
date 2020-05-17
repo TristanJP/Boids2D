@@ -7,8 +7,8 @@ public class ControlPanel : MonoBehaviour
 {
     private RectTransform rectTransform;
     private bool revealed = false;
-    private const float hiddenPos = 70f;
-    private const float revealedPos = -60f;
+    private const float hiddenPos = 105f;
+    private const float revealedPos = -100f;
     private float pos;
 
     void Awake() {
