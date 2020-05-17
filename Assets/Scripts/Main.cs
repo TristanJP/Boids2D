@@ -7,17 +7,14 @@ public class Main : MonoBehaviour
 {
     public bool showGreenRays = false;
     public bool showRedRays = false;
-    public int boidCount = 10;
+    public int boidCount = 48;
     public bool avoidCollision = true;
     public bool alignDirection = true;
     public bool steerToCentre = true;
     public GameObject boid;
     private List<Transform> boidList;
 
-    public GameObject colorPicker;
-    ColorPicker colorPickerComp;
-    public GameObject imageTest;
-    Image imageTestComp;
+    public ColorPicker colorPickerComp;
 
     // Start is called before the first frame update
     void Start()
@@ -29,9 +26,7 @@ public class Main : MonoBehaviour
             i += 1;
         }
 
-        colorPickerComp = colorPicker.GetComponent<ColorPicker>();
-        colorPickerComp.color = Color.red;
-        imageTestComp = imageTest.GetComponent<Image>();
+        colorPickerComp.color = new Color(0.2f, 0.9f, 1f);
     }
 
     public List<Transform> getNearbyBoids(Transform requestingBoid, float distance) {
@@ -57,36 +52,43 @@ public class Main : MonoBehaviour
                 case 1:
                     // bottom
                     randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, 0));
+                    randomPosition.y -= 0.5f;
                     break;
                 case 2:
                     // top
                     randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(Random.value, 1));
+                    randomPosition.y += 0.5f;
                     break;
                 case 3:
                     // left
                     randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(0, Random.value));
+                    randomPosition.x -= 0.5f;
                     break;
                 case 4:
                     // right
                     randomPosition = Camera.main.ViewportToWorldPoint(new Vector2(1, Random.value));
+                    randomPosition.x += 0.5f;
                     break;
             }
 
         }
 
-        GameObject boidInstance = Instantiate(boid, randomPosition, Quaternion.identity);
+        GameObject boidInstance = Instantiate(boid, randomPosition, Quaternion.Euler(0,0,Random.rotation.z));
         //Boid boidController = boidInstance.GetComponent<Boid>();
         boidList.Add(boidInstance.transform);
     }
 
     public void removeBoid(Transform boidToRemove) {
         boidList.Remove(boidToRemove);
+
+        if (boidList.Count < boidCount) {
+            addBoid(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        imageTestComp.color = colorPickerComp.color;
         foreach (Transform boid in boidList) {
             Boid boidController = boid.GetComponent<Boid>();
             boidController.setColor(colorPickerComp.color);
