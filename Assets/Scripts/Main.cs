@@ -12,7 +12,7 @@ public class Main : MonoBehaviour
     public bool alignDirection = true;
     public bool steerToCentre = true;
     public GameObject boid;
-    private List<Transform> boidList;
+    private List<Boid> boidList;
 
     public ColorPicker colorPickerComp;
     public Slider boidCountSlider;
@@ -21,7 +21,7 @@ public class Main : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        boidList = new List<Transform>();
+        boidList = new List<Boid>();
         int i = 0;
         while (i < boidCount) {
             addBoid();
@@ -32,13 +32,13 @@ public class Main : MonoBehaviour
         boidCountSlider.value = boidCount;
     }
 
-    public List<Transform> getNearbyBoids(Transform requestingBoid, float distance) {
+    public List<Transform> getNearbyBoids(Boid requestingBoid, float distance) {
         List<Transform> nearbyBoids = new List<Transform>();
-        foreach (Transform boid in boidList) {
+        foreach (Boid boid in boidList) {
             if (boid != requestingBoid) {
-                float dist = Vector3.Distance(requestingBoid.position, boid.position);
+                float dist = Vector3.Distance(requestingBoid.transform.position, boid.transform.position);
                 if (dist <= distance) {
-                    nearbyBoids.Add(boid);
+                    nearbyBoids.Add(boid.transform);
                 }
             }
         }
@@ -78,10 +78,10 @@ public class Main : MonoBehaviour
 
         GameObject boidInstance = Instantiate(boid, randomPosition, Quaternion.Euler(0,0,Random.rotation.z));
         //Boid boidController = boidInstance.GetComponent<Boid>();
-        boidList.Add(boidInstance.transform);
+        boidList.Add(boidInstance.GetComponent<Boid>());
     }
 
-    public void removeBoid(Transform boidToRemove) {
+    public void removeBoid(Boid boidToRemove) {
         boidList.Remove(boidToRemove);
         Destroy(boidToRemove.gameObject);
 
@@ -91,20 +91,19 @@ public class Main : MonoBehaviour
     }
 
     public void setBoidCount(float newBoidCount) {
-        boidCount = (int)newBoidCount;
+        boidCount = (int) newBoidCount;
     }
 
     // Update is called once per frame
     void Update()
     {
-        foreach (Transform boid in boidList) {
-            Boid boidController = boid.GetComponent<Boid>();
-            boidController.setColor(colorPickerComp.color);
+        foreach (Boid boid in boidList) {
+            boid.setColor(colorPickerComp.color);
         }
 
         while (boidCount != boidList.Count) {
             if (boidCount < boidList.Count) {
-                Transform chosenBoid = boidList[Random.Range(1, boidList.Count)];
+                Boid chosenBoid = boidList[Random.Range(1, boidList.Count)];
                 removeBoid(chosenBoid);
             }
             if (boidCount > boidList.Count) {

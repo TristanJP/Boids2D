@@ -70,7 +70,7 @@ public class Boid : MonoBehaviour
 
         // If in container, do collision avoidance
         if (!outside) {
-            nearbyBoids = controller.getNearbyBoids(transform, alignmentDistance);
+            nearbyBoids = controller.getNearbyBoids(this, alignmentDistance);
 
             Vector3 newDirection = Vector3.zero;
             if (controller.avoidCollision) {
@@ -132,7 +132,7 @@ public class Boid : MonoBehaviour
             position = newPosition;
         }
         else if (other.tag == "Bounds") {
-            controller.removeBoid(transform);
+            controller.removeBoid(this);
         }
 
     }
