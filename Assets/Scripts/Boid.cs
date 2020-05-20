@@ -85,7 +85,6 @@ public class Boid : MonoBehaviour
                 Vector3 flockCentreDirection = getFlockCentre() - position;
                 newDirection += flockCentreDirection.normalized * steerToCentreWeight;
             }
-
             acceleration += SteerTowards(newDirection);
 
             velocity += acceleration * Time.deltaTime;
@@ -123,12 +122,10 @@ public class Boid : MonoBehaviour
             }
             if (position.y >= other.transform.position.y + containerSize.y/2) {
                 newPosition.y = -(containerSize.y/2);
-
             }
             else if (position.y <= other.transform.position.y - containerSize.y/2) {
                 newPosition.y = (containerSize.y/2);
             }
-
             position = newPosition;
         }
         else if (other.tag == "Bounds") {
@@ -154,15 +151,12 @@ public class Boid : MonoBehaviour
                 if (controller.showRedRays) {
                     Debug.DrawRay(position + (transform.forward * 0.3f), rayVector *  rayDistance, Color.red);
                 }
-
-
             }
             else {
                 if (controller.showGreenRays) {
                     Debug.DrawRay(position + (transform.forward * 0.3f), rayVector * rayDistance, Color.green);
                 }
             }
-
         }
 
         if (obstDirections.Count > 0) {
@@ -171,8 +165,6 @@ public class Boid : MonoBehaviour
                 averageVector += dir.normalized;
             }
             return averageVector.normalized*-1;
-
-
         }
         return transform.forward;
     }
